@@ -26,7 +26,7 @@ defmodule Mix.Tasks.Licenses do
   end
 
   defp to_row(map) do
-    [map.name, map.version, map.license]
+    [map.name, map.version, map.license, map.file]
   end
 
   defp render(rows, opts) do
@@ -40,13 +40,13 @@ defmodule Mix.Tasks.Licenses do
     _ = Mix.Shell.IO.info([:yellow, "Notice: This is not a legal advice. Use the information below at your own risk."])
 
     rows
-    |> TableRex.quick_render!(["Package", "Version", "License"])
+    |> TableRex.quick_render!(["Package", "Version", "License", "File"])
     |> IO.puts()
   end
 
   defp render_csv(rows) do
     rows
-    |> List.insert_at(0, ["Package", "Version", "License"])
+    |> List.insert_at(0, ["Package", "Version", "License", "File"])
     |> CSV.encode()
     |> Enum.each(&IO.write/1)
   end
