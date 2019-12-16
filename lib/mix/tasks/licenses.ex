@@ -26,7 +26,7 @@ defmodule Mix.Tasks.Licenses do
   end
 
   defp to_row(map) do
-    [map.name, map.version, map.license, map.file]
+    [map.name, map.version, map.license, map.raw_file]
   end
 
   defp render(rows, opts) do

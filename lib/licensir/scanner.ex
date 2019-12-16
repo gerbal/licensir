@@ -31,6 +31,7 @@ defmodule Licensir.Scanner do
     |> filter_top_level(opts)
     |> search_hex_metadata()
     |> search_file()
+    |> search_raw_license_file()
     |> Guesser.guess()
   end
 
@@ -116,5 +117,23 @@ defmodule Licensir.Scanner do
       end)
 
     Map.get(@human_names, license_atom)
+  end
+
+  defp search_raw_license_file(licenses) when is_list(licenses), do: Enum.map(licenses, &search_raw_license_file/1)
+
+  defp search_raw_license_file(%License{} = license) do
+    Map.put(license, :raw_file, search_raw_license_file(license.dep))
+  end
+
+  defp search_raw_license_file(%Mix.Dep{} = dep) do
+    license_atom =
+      Mix.Dep.in_dependency(dep, fn _ ->
+        case File.cwd() do
+          {:ok, dir_path} -> FileAnalyzer.read_license_file(dir_path)
+          _ -> nil
+        end
+      end)
+
+    # Map.get(@human_names, license_atom)
   end
 end

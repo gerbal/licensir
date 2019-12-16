@@ -49,4 +49,16 @@ defmodule Licensir.FileAnalyzer do
   end
 
   defp clean(content), do: String.replace(content, ~r/\v/, "")
+
+  def read_license_file(dir_path) do
+    Enum.find_value(@license_files, fn file_name ->
+      dir_path
+      |> Path.join(file_name)
+      |> File.read()
+      |> case do
+        {:ok, content} -> content
+        {:error, _} -> nil
+      end
+    end)
+  end
 end

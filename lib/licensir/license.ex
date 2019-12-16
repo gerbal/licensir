@@ -22,7 +22,8 @@ defmodule Licensir.License do
             certainty: 0.0,
             mix: nil,
             hex_metadata: nil,
-            file: nil
+            file: nil,
+            raw_file: nil
 
   @type t :: %__MODULE__{
           app: atom(),
@@ -33,6 +34,7 @@ defmodule Licensir.License do
           certainty: float(),
           mix: list(String.t()) | nil,
           hex_metadata: list(String.t()) | nil,
-          file: String.t() | nil
+          file: String.t() | nil,
+          raw_file: String.t() | nil
         }
 end
